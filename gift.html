@@ -1,0 +1,264 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Spectral:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #1a1208;
+            --paper: #f5ede0;
+            --paper-dark: #ecddc8;
+            --accent: #b5602a;
+            --accent-light: #d4896a;
+            --faint: #c9b49a;
+            --sepia: #8b6845;
+        }
+ 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+ 
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(18px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+ 
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            45%       { opacity: .92; }
+            55%       { opacity: .98; }
+        }
+ 
+        body {
+            background-color: #2b1f13;
+            background-image:
+                radial-gradient(ellipse 80% 60% at 50% 0%, #4a3020 0%, transparent 70%),
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.08'/%3E%3C/svg%3E");
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 48px 20px;
+            font-family: 'Spectral', Georgia, serif;
+        }
+ 
+        /* --- floating petals --- */
+        .petal {
+            position: fixed;
+            font-size: 1rem;
+            opacity: 0;
+            animation: fall linear infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+        @keyframes fall {
+            0%   { transform: translateY(-40px) rotate(0deg); opacity: .7; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+ 
+        /* --- envelope wrapper --- */
+        .envelope {
+            position: relative;
+            max-width: 680px;
+            width: 100%;
+            animation: fadeIn .9s ease both;
+            z-index: 1;
+        }
+ 
+        .envelope::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 4px;
+            background: linear-gradient(135deg, #c8a97e 0%, #7a5533 50%, #c8a97e 100%);
+            z-index: -1;
+        }
+ 
+        /* --- paper sheet --- */
+        .paper {
+            background: var(--paper);
+            background-image:
+                repeating-linear-gradient(
+                    transparent,
+                    transparent 27px,
+                    rgba(180,150,110,.18) 27px,
+                    rgba(180,150,110,.18) 28px
+                ),
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.5' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+            border-radius: 3px;
+            padding: 56px 64px 48px;
+            position: relative;
+            overflow: hidden;
+            box-shadow:
+                0 2px 8px rgba(0,0,0,.25),
+                inset 0 0 60px rgba(180,140,90,.1);
+        }
+ 
+        /* left red margin line */
+        /* .paper::before {
+            content: '';
+            position: absolute;
+            top: 0; bottom: 0;
+            left: 80px;
+            width: 1px;
+            background: rgba(190,80,60,.25);
+        } */
+ 
+        /* decorative corner flourish */
+        .paper::after {
+            content: '✦';
+            position: absolute;
+            top: 18px; right: 22px;
+            font-size: .85rem;
+            color: var(--faint);
+            letter-spacing: 6px;
+        }
+ 
+        /* --- header --- */
+        header {
+            text-align: right;
+            margin-bottom: 36px;
+        }
+ 
+        header h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-style: italic;
+            font-size: 1.05rem;
+            color: var(--sepia);
+            letter-spacing: .08em;
+        }
+ 
+        /* --- salutation --- */
+        .salutation h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 400;
+            font-size: 1.7rem;
+            color: var(--accent);
+            margin-bottom: 24px;
+            animation: fadeIn .7s .3s ease both;
+        }
+ 
+        /* --- body text --- */
+        .letter-body {
+            color: var(--ink);
+            font-size: 1.02rem;
+            font-weight: 300;
+            line-height: 1.92;
+            animation: fadeIn .7s .5s ease both;
+        }
+ 
+        .letter-body br + br {
+            display: block;
+            content: '';
+            margin-top: 4px;
+        }
+ 
+        /* paragraph spacing via <br> groups */
+        .letter-body .para {
+            display: block;
+            margin-bottom: 18px;
+        }
+ 
+        .letter-body .closing {
+            display: block;
+            margin-top: 28px;
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 1.12rem;
+            color: var(--accent);
+        }
+ 
+        .letter-body .postscript {
+            display: block;
+            margin-top: 24px;
+            font-size: .88rem;
+            color: var(--sepia);
+            line-height: 1.7;
+            border-top: 1px dashed var(--faint);
+            padding-top: 16px;
+        }
+ 
+        .divider {
+            text-align: center;
+            color: var(--faint);
+            font-size: .7rem;
+            letter-spacing: 8px;
+            margin: 8px 0 0;
+        }
+ 
+        /* --- footer --- */
+        footer {
+            margin-top: 16px;
+            text-align: center;
+            animation: fadeIn .7s .8s ease both;
+        }
+ 
+        footer p {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: .78rem;
+            color: var(--faint);
+            letter-spacing: .12em;
+        }
+ 
+        /* responsive */
+        @media (max-width: 520px) {
+            .paper { padding: 40px 28px 36px; }
+            .paper::before { left: 0; }
+        }
+    </style>
+</head>
+<body>
+ 
+    <!-- floating petals -->
+    
+ 
+    <div class="envelope">
+        <div class="paper">
+ 
+            <header>
+                <h1>22 April 2026</h1>
+            </header>
+ 
+            <main>
+                <article>
+                    <section class="salutation">
+                        <h2>Dear M,</h2>
+                    </section>
+ 
+                    <section class="letter-body">
+                        <span class="para">You're like a bright shooting star... rare, unpredictable, and impossible to ignore. I.e. a multi-talented, strong woman that I am honestly proud of 👏🏼 I'm always surprised by seeing your new emerging personalities. Some of them contradict each other, yet they come together so beautifully that it always looks graceful. (Kuch nai bas observational skills hai mere me 😂)</span>
+ 
+                        <span class="para">Sometimes you feel distant to me just like a planet in its own orbit 😌, but never too far. I just wish you could be more open in telling/asking me things...or expressing what you think or feel internally.</span>
+ 
+                        <span class="para">It sums...up. One thing I really admire about you is your hard working nature and your never-giving-up attitude. And yes, I love you as a person too, even with some of your bad habits. 😜 Sry (:</span>
+ 
+                        <span class="para">"I just hope you keep growing into the person you truly are or truly that you want to become, a little better every day."</span>
+ 
+                        <span class="closing">Happy Birthday !!! 🤝🏽🫂 <br>Yours truly,<br>T</span>
+ 
+                        <span class="postscript">(I just hope and pray that our silly arguments never turn into something that makes us feel far from each other. Pls bear with my writing 😅 I might have been a little poetic here 😂 but it's natural for me, it's from the heart 😌. This may not be the gift that you hoped for but this is my way of giving something!)</span>
+                     
+                        <div class="divider">— ✦ —</div>
+                    </section>
+                </article>
+            </main>
+ 
+        </div><!-- .paper -->
+    </div><!-- .envelope -->
+ 
+    <footer>
+        <p>Copyright &copy; T.B 2026</p>
+    </footer>
+ 
+</body>
+</html>
+```
+ 
